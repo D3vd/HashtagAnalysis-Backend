@@ -2,7 +2,6 @@ import tweepy
 from textblob import TextBlob
 from tweepy import OAuthHandler
 
-from pprint import pprint
 import re
 import os
 
@@ -52,7 +51,3 @@ class TwitterClient():
                     tweets.append(parsed_tweet)
 
         return tweets
-
-
-api = TwitterClient()
-pprint(api.get_tweets('Trump', 5))
