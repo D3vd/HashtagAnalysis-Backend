@@ -10,12 +10,11 @@ def clean_tweet(tweet):
 def get_sentiment(tweet):
 
     blob = TextBlob(clean_tweet(tweet))
-    print(clean_tweet(tweet))
     polarity = blob.sentiment.polarity
 
     if polarity > 0.0:
-        return 'positive'
+        return 1
     elif polarity < 0.0:
-        return 'negative'
+        return -1
     else:
-        return 'neutral'
+        return 0
