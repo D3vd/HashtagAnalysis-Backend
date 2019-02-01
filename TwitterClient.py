@@ -1,8 +1,6 @@
 import tweepy
-from textblob import TextBlob
 from tweepy import OAuthHandler
 
-import re
 import os
 
 
