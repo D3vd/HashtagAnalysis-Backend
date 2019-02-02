@@ -15,7 +15,7 @@ def index():
 def api(query):
 
     api = TwitterClient()
-    tweets = api.get_tweets(query, 200)
+    tweets = api.get_tweets(query, 500)
 
     positive = 0
     negative = 0

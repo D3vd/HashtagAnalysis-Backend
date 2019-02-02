@@ -31,8 +31,8 @@ class TwitterClient():
 
         tweets = []
 
-        fetched_tweets = self.api.search(
-            q=query, lang='en', count=count, tweet_mode="extended")
+        fetched_tweets = [status for status in tweepy.Cursor(
+            self.api.search, q=query, tweet_mode="extended").items(count)]
 
         for tweet in fetched_tweets:
 
