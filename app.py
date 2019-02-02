@@ -41,9 +41,9 @@ def api(query):
 
     total = positive + negative + neutral
 
-    positive = (positive / total) * 100
-    negative = (negative / total) * 100
-    neutral = (neutral / total) * 100
+    positive = round(((positive / total) * 100), 2)
+    negative = round(((negative / total) * 100), 2)
+    neutral = round(((neutral / total) * 100), 2)
 
     return jsonify({
         'results': {
