@@ -15,7 +15,7 @@ def index():
 def api(query):
 
     api = TwitterClient()
-    tweets = api.get_tweets(query, 500)
+    tweets = api.get_tweets(query, 200)
 
     positive = 0
     negative = 0
@@ -39,17 +39,42 @@ def api(query):
         if tweet['retweet_count'] > highest_rt:
             biggest_tweet = tweet
 
-    total = positive + negative + neutral
+    total_per = positive + negative + neutral
 
-    positive = round(((positive / total) * 100), 2)
-    negative = round(((negative / total) * 100), 2)
-    neutral = round(((neutral / total) * 100), 2)
+    positive_per = round(((positive / total_per) * 100), 2)
+    negative_per = round(((negative / total_per) * 100), 2)
+    neutral_per = round(((neutral / total_per) * 100), 2)
+
+    mean_total = positive + negative
+
+    positive_mean = round(((positive / mean_total) * 100), 2)
+    negative_mean = round(((negative / mean_total) * 100), 2)
+
+    sentiment = ''
+
+    if abs(positive_mean - negative_mean) < 5.0:
+        sentiment = 'Controversial'
+    elif positive_mean - negative_mean:
+        sentiment = 'Positive'
+    else:
+        sentiment = 'negative'
 
     return jsonify({
-        'results': {
+        'sentiment': sentiment,
+        'count': {
             'positive': positive,
             'negative': negative,
-            'neutral': neutral
+            'neutral': neutral,
+            'total': total_per
+        },
+        'mean': {
+            'positive': positive_mean,
+            'negative': negative_mean
+        },
+        'results': {
+            'positive': positive_per,
+            'negative': negative_per,
+            'neutral': neutral_per
         },
         'biggest_tweet': biggest_tweet
     })

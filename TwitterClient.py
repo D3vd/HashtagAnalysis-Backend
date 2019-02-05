@@ -42,10 +42,6 @@ class TwitterClient():
             parsed_tweet['retweet_count'] = tweet._json['retweet_count']
             parsed_tweet['favorite_count'] = tweet._json['favorite_count']
 
-            if tweet._json['retweet_count'] > 0:
-                if parsed_tweet not in tweets:
-                    tweets.append(parsed_tweet)
-                else:
-                    tweets.append(parsed_tweet)
+            tweets.append(parsed_tweet)
 
         return tweets
