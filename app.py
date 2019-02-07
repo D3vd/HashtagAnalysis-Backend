@@ -1,4 +1,5 @@
 from flask import Flask, jsonify
+import os
 
 from TwitterClient import TwitterClient
 from SentimentAnalysis import get_sentiment
@@ -14,8 +15,10 @@ def index():
 @app.route('/api/<query>')
 def api(query):
 
+    query_limit = int(os.getenv('QUERY_LIMIT'))
+
     api = TwitterClient()
-    tweets = api.get_tweets(query, 200)
+    tweets = api.get_tweets(query, query_limit)
 
     positive = 0
     negative = 0
@@ -76,5 +79,7 @@ def api(query):
             'negative': negative_per,
             'neutral': neutral_per
         },
-        'biggest_tweet': biggest_tweet
+        'biggest_tweet': biggest_tweet,
+        'errorCode': 200,
+        'message': 'Request Successful!'
     })
