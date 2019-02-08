@@ -1,18 +1,23 @@
 from flask import Flask, jsonify
+from flask_cors import CORS, cross_origin
 import os
 
 from TwitterClient import TwitterClient
 from SentimentAnalysis import get_sentiment
 
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 
 @app.route('/')
+@cross_origin
 def index():
     return 'Home'
 
 
 @app.route('/api/<query>')
+@cross_origin
 def api(query):
 
     query_limit = int(os.getenv('QUERY_LIMIT'))
