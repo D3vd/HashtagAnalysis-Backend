@@ -59,7 +59,7 @@ def api(query):
 
     sentiment = ''
 
-    if abs(positive_mean - negative_mean) < 5.0:
+    if abs(positive_mean - negative_mean) < 10.0:
         sentiment = 'Controversial'
     elif positive_mean > negative_mean:
         sentiment = 'Positive'
