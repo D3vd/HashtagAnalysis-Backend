@@ -64,7 +64,7 @@ def api(query):
     elif positive_mean > negative_mean:
         sentiment = 'Positive'
     else:
-        sentiment = 'negative'
+        sentiment = 'Negative'
 
     return jsonify({
         'sentiment': sentiment,
