@@ -34,6 +34,12 @@ def api(query):
             "message": "Too many requests. Try again later"
         })
 
+    if len(tweets) == 0:
+        return jsonify({
+            "status_code": 400,
+            "message": "Not a valid query"
+        })
+
     positive = 0
     negative = 0
     neutral = 0
