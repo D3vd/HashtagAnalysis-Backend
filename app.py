@@ -5,6 +5,8 @@ import os
 from TwitterClient import TwitterClient
 from SentimentAnalysis import get_sentiment
 
+from pprint import pprint
+
 app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
@@ -66,6 +68,9 @@ def api(query):
     else:
         sentiment = 'Negative'
 
+    INDIA_WOE_ID = 23424848
+    trending = api.get_trending(INDIA_WOE_ID)
+
     return jsonify({
         'sentiment': sentiment,
         'count': {
@@ -84,6 +89,7 @@ def api(query):
             'neutral': neutral_per
         },
         'biggest_tweet': biggest_tweet,
-        'errorCode': 200,
-        'message': 'Request Successful!'
+        'status_code': 200,
+        'message': 'Request Successful!',
+        'trending': trending[:10]
     })

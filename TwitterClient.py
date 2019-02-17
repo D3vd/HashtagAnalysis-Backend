@@ -45,3 +45,20 @@ class TwitterClient():
             tweets.append(parsed_tweet)
 
         return tweets
+
+    def get_trending(self, WOE_ID):
+
+        trending = []
+
+        trends = self.api.trends_place(WOE_ID)
+
+        for trend in trends[0]['trends']:
+
+            temp = {}
+
+            temp['name'] = trend["name"].strip("#")
+            temp['tweet_volume'] = trend['tweet_volume']
+
+            trending.append(temp)
+
+        return trending
