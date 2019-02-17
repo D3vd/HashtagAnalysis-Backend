@@ -1,11 +1,11 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, redirect
 from flask_cors import CORS, cross_origin
 import os
 
 from TwitterClient import TwitterClient
 from SentimentAnalysis import get_sentiment
 
-from pprint import pprint
+from tweepy.error import TweepError
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -14,7 +14,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 
 @app.route('/')
 def index():
-    return 'Home'
+    return redirect('https://hashtaganalysis.netlify.com')
 
 
 @app.route('/api/<query>')
@@ -24,7 +24,15 @@ def api(query):
     query_limit = int(os.getenv('QUERY_LIMIT'))
 
     api = TwitterClient()
-    tweets = api.get_tweets(query, query_limit)
+
+    try:
+        tweets = api.get_tweets(query, query_limit)
+
+    except TweepError as e:
+        return jsonify({
+            "status_code": 429,
+            "message": "Too many requests. Try again later"
+        })
 
     positive = 0
     negative = 0
