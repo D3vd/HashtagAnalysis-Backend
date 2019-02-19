@@ -2,10 +2,13 @@ from flask import Flask, jsonify, redirect
 from flask_cors import CORS, cross_origin
 import os
 
+from operator import itemgetter
 from TwitterClient import TwitterClient
 from SentimentAnalysis import get_sentiment
 
 from tweepy.error import TweepError
+
+from pprint import pprint
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -44,23 +47,24 @@ def api(query):
     negative = 0
     neutral = 0
 
-    highest_rt = 0
-    biggest_tweet = {}
+    positive_tweets = []
+    negative_tweets = []
+    neutral_tweets = []
 
     for tweet in tweets:
         sentiment = get_sentiment(tweet['text'])
         if sentiment == 1:
             tweet['sentiment'] = 'positive'
             positive += 1
+            positive_tweets.append(tweet)
         elif sentiment == -1:
             tweet['sentiment'] = 'negative'
             negative += 1
+            negative_tweets.append(tweet)
         else:
             tweet['sentiment'] = 'neutral'
             neutral += 1
-
-        if tweet['retweet_count'] > highest_rt:
-            biggest_tweet = tweet
+            neutral_tweets.append(tweet)
 
     total_per = positive + negative + neutral
 
@@ -72,6 +76,13 @@ def api(query):
 
     positive_mean = round(((positive / mean_total) * 100), 2)
     negative_mean = round(((negative / mean_total) * 100), 2)
+
+    positive_tweets = sorted(positive_tweets, key=itemgetter(
+        'retweet_count'), reverse=True)
+    negative_tweets = sorted(negative_tweets, key=itemgetter(
+        'retweet_count'), reverse=True)
+    neutral_tweets = sorted(neutral_tweets, key=itemgetter(
+        'retweet_count'), reverse=True)
 
     sentiment = ''
 
@@ -102,8 +113,12 @@ def api(query):
             'negative': negative_per,
             'neutral': neutral_per
         },
-        'biggest_tweet': biggest_tweet,
         'status_code': 200,
         'message': 'Request Successful!',
-        'trending': trending[:10]
+        'trending': trending[:5],
+        'tweets': {
+            'positive_tweets': positive_tweets[:5],
+            'negative_tweets': negative_tweets[:5],
+            'neutral_tweets': neutral_tweets[:5]
+        }
     })
