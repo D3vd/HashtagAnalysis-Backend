@@ -4,11 +4,10 @@ import os
 
 from operator import itemgetter
 from TwitterClient import TwitterClient
-from SentimentAnalysis import get_sentiment
+from SentimentAnalysis import get_sentiment, get_word_count
 
 from tweepy.error import TweepError
 
-from pprint import pprint
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -84,6 +83,10 @@ def api(query):
     neutral_tweets = sorted(neutral_tweets, key=itemgetter(
         'retweet_count'), reverse=True)
 
+    positive_word_count = get_word_count(positive_tweets)
+    negative_word_count = get_word_count(negative_tweets)
+    neutral_word_count = get_word_count(neutral_tweets)
+
     sentiment = ''
 
     if abs(positive_mean - negative_mean) < 10.0:
@@ -120,5 +123,10 @@ def api(query):
             'positive_tweets': positive_tweets[:5],
             'negative_tweets': negative_tweets[:5],
             'neutral_tweets': neutral_tweets[:5]
+        },
+        'word_count': {
+            'positive': positive_word_count,
+            'negative': negative_word_count,
+            'neutral': neutral_word_count
         }
     })
