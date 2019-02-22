@@ -128,5 +128,6 @@ def api(query):
             'positive': positive_word_count,
             'negative': negative_word_count,
             'neutral': neutral_word_count
-        }
+        },
+        'query': query.title()
     })
