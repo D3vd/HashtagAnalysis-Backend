@@ -24,7 +24,7 @@ def get_sentiment(tweet):
         return 0
 
 
-def get_word_count(tweets):
+def get_word_count(tweets, query):
 
     raw_text = ''
 
@@ -40,11 +40,15 @@ def get_word_count(tweets):
 
     counter = Counter(stopwordsfree_words)
 
-    most_occur = counter.most_common(20)
+    most_occur = counter.most_common(15)
 
     most_occur_list = []
 
     for word in most_occur:
+
+        if word[0] == query:
+            continue
+
         temp = {}
         temp['word'] = word[0]
         temp['count'] = word[1]

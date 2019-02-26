@@ -83,9 +83,9 @@ def api(query):
     neutral_tweets = sorted(neutral_tweets, key=itemgetter(
         'retweet_count'), reverse=True)
 
-    positive_word_count = get_word_count(positive_tweets)
-    negative_word_count = get_word_count(negative_tweets)
-    neutral_word_count = get_word_count(neutral_tweets)
+    positive_word_count = get_word_count(positive_tweets, query)
+    negative_word_count = get_word_count(negative_tweets, query)
+    neutral_word_count = get_word_count(neutral_tweets, query)
 
     sentiment = ''
 
