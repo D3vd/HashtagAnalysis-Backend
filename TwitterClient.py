@@ -41,6 +41,8 @@ class TwitterClient():
             parsed_tweet['text'] = tweet._json['full_text']
             parsed_tweet['retweet_count'] = tweet._json['retweet_count']
             parsed_tweet['favorite_count'] = tweet._json['favorite_count']
+            parsed_tweet['profile_img'] = tweet._json['user']['profile_image_url_https']
+            parsed_tweet['name'] = tweet._json['user']['name']
 
             tweets.append(parsed_tweet)
 
