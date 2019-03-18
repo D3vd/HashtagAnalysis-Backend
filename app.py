@@ -96,7 +96,7 @@ def api(query):
     else:
         sentiment = 'Negative'
 
-    WOE_ID = 1
+    WOE_ID = 23424977
     trending = api.get_trending(WOE_ID)
 
     return jsonify({
