@@ -10,7 +10,7 @@ Jinja2>=2.10.1
 MarkupSafe==1.1.0
 nltk==3.4
 oauthlib==3.0.1
-PySocks==1.6.8
+PySocks==1.7.0
 requests==2.21.0
 requests-oauthlib==1.2.0
 singledispatch==3.4.0.3
